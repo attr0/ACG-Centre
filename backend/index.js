@@ -1,4 +1,4 @@
-const API_URL = 'http://aniopen.a-ni.workers.dev/';
+const API_URL = 'http://aniopen.an-i.workers.dev/';
 
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));

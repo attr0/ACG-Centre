@@ -19,7 +19,11 @@ export async function loadVideo(config, dataHandler, mediaData, apiConfig) {
 }
 
 async function parseVideo(response, config, targetPath, apiUrl, backup) {
-    const re = new RegExp("\\[(.+?)\\](.+?)\\[(.+?)\\]", "u");
+    let re = new RegExp("\\[(.+?)\\](.+?)\\[(.+?)\\]", "u");
+    if(targetPath.includes("2022-4") || targetPath.includes("2022-7")) {
+        console.log(targetPath)
+        re = new RegExp("\\[(.+?)\\](.+?)\\s+[-]\\s(\\d+)\\s\\[", "u");
+    }
     const target = config.title.split("！")[0].split("!")[0].split("?")[0].split("？")[0].trim();
 
     let tmp = [];
@@ -85,8 +89,18 @@ function parseDictory(response, targetPath) {
 }
 
 function parseUnorderedDictory(data, targetPath) {
-    const re = new RegExp("\\[(.+?)\\](.+?)\\[", "u");
-    data = data.map(item => re.exec(item)[2])
+    // patch on 2022/07/18
+    let re = new RegExp("\\[(.+?)\\](.+?)\\[", "u");
+    if(targetPath.includes("2022-4") || targetPath.includes("2022-7")) {
+        console.log(targetPath)
+        re = new RegExp("\\[(.+?)\\](.+?)\\s+[-]\\s\\d+\\s\\[", "u");
+    }
+    
+    data = data.map(item => {
+        let res = re.exec(item)
+        if(res == null) return item
+        else return res[2]
+    })
     data = [...new Set(data)]
     return data.map(item => { return { name: item, type: 0, path: targetPath + item + '/', parentPath: targetPath } });
 }

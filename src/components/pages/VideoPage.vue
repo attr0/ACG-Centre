@@ -266,6 +266,11 @@ el-col {
     padding-bottom: 0.7rem !important;
     margin-bottom: 0.8rem !important;
     line-height: 2rem !important;
+  }  
+  .dplayerStyle {
+    min-height: 26vh;
+    max-height: 35rem;
+    max-width: 60rem;
   }
 }
 
